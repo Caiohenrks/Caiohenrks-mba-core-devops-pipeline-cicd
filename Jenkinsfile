@@ -57,7 +57,11 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh "docker-compose -f ./data_app/docker-compose.yml up -d"
-
+            }
+        }
+        stage('Build') {
+            steps {
+                sh "docker run -v ./postman/${JOB_NAME.toLowerCase()}.json:/etc/newman -t postman/newman run /etc/newman/${JOB_NAME.toLowerCase()}.json"
             }
         }
     }
