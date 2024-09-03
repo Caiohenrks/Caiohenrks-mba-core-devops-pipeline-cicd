@@ -1,16 +1,7 @@
 pipeline {
     agent any
 
-<<<<<<< HEAD
     stages { 
-=======
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        } 
->>>>>>> 4dbd39e4d45fe664a25af6d771aae959541911d0
         stage('Scan Sonarqube') {
             steps {
                 script {
@@ -39,14 +30,13 @@ pipeline {
         		}
         	}
         }
-<<<<<<< HEAD
         stage('Build') {
             steps {
                 sh "docker-compose -f ./data_app/docker-compose.yml build"
                 sh "docker build -t ${JOB_NAME.toLowerCase()} -f ./data_app/Dockerfile ./data_app"
             }
         }
-        stage('Push Nexus') {
+        stage('Push Registry') {
             steps {
                 script {
                     def nexusUrl = '192.168.50.30:8082'
@@ -60,7 +50,5 @@ pipeline {
                 }
             }
         } 
-=======
->>>>>>> 4dbd39e4d45fe664a25af6d771aae959541911d0
     }
 }
