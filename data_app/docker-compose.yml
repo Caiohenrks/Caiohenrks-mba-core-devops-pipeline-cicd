@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+    networks:
+      - qr-net
+
+  redis:
+    image: "redis:alpine"
+    networks:
+      - qr-net
+
+  php:
+    image: php:7.4-apache
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - qr-net
+
+networks:
+  qr-net:
+    driver: bridge
