@@ -46,6 +46,7 @@ pipeline {
                         sh "docker login -u $NEXUS_USERNAME -p $NEXUS_PASSWORD ${nexusUrl}"
                         sh "docker tag ${JOB_NAME.toLowerCase()} ${nexusUrl}/${repoName}/${JOB_NAME.toLowerCase()}:latest"
                         sh "docker push ${nexusUrl}/${repoName}/${JOB_NAME.toLowerCase()}:latest"
+                        sh "docker push ${nexusUrl}/${repoName}/${JOB_NAME.toLowerCase()}:V${BUILD_NUMBER}"
                     }
                 }
             }
