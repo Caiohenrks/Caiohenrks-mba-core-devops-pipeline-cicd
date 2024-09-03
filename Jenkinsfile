@@ -44,8 +44,11 @@ pipeline {
         
                     withCredentials([usernamePassword(credentialsId: 'NEXUS_LOGIN', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
                         sh "docker login -u $NEXUS_USERNAME -p $NEXUS_PASSWORD ${nexusUrl}"
+                        
                         sh "docker tag ${JOB_NAME.toLowerCase()} ${nexusUrl}/${repoName}/${JOB_NAME.toLowerCase()}:latest"
                         sh "docker push ${nexusUrl}/${repoName}/${JOB_NAME.toLowerCase()}:latest"
+                        
+                        sh "docker tag ${JOB_NAME.toLowerCase()} ${nexusUrl}/${repoName}/${JOB_NAME.toLowerCase()}:V${BUILD_NUMBER}"
                         sh "docker push ${nexusUrl}/${repoName}/${JOB_NAME.toLowerCase()}:V${BUILD_NUMBER}"
                     }
                 }
