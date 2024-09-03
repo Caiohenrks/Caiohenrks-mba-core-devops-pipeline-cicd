@@ -39,7 +39,7 @@ Vagrant.configure("2") do |config|
       sudo firewall-cmd --reload
 
       sudo echo '{ "insecure-registries" : ["192.168.50.30:8082"] }' | sudo tee /etc/docker/daemon.json
-      sudo systemctl restart jenkins
+      sudo systemctl restart docker
 
     SHELL
 
