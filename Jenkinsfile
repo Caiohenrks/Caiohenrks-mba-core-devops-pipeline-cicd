@@ -53,6 +53,13 @@ pipeline {
                     }
                 }
             }
-        } 
+        }
+        stage('Deploy') {
+            steps {
+                sh "docker-compose -f ./data_app/docker-compose.yml up"
+                sh "docker run -d -p 8090:8080 ${nexusUrl}/${repoName}/${JOB_NAME.toLowerCase()}:latest"
+
+            }
+        }
     }
 }
