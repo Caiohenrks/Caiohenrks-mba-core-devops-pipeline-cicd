@@ -12,7 +12,7 @@ pipeline {
                             -e SONAR_HOST_URL="http://192.168.50.20:9000/" \
                             -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=${JOB_NAME}" \
                             -e SONAR_TOKEN="${SONARQUBE}" \
-                            -v "./${JOB_NAME}/data_app:/usr/src" \
+                            -v "./data_app:/usr/src" \
                             sonarsource/sonar-scanner-cli
                         """
         				sleep 15
