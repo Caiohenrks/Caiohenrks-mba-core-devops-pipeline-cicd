@@ -61,7 +61,8 @@ pipeline {
         }
         stage('Tests') {
             steps {
-                sh "docker run -v ./postman:/etc/newman -t postman/newman run /etc/newman/${JOB_NAME.toLowerCase()}.json"
+                sh "docker run -v ./postman:/etc/newman -t postman/newman run /etc/newman/${JOB_NAME.toLowerCase()}.json > output.log"
+                sh "cat output.log" 
             }
         }
     }
