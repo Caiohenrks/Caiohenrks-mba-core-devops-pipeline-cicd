@@ -61,8 +61,11 @@ pipeline {
         }
         stage('Tests') {
             steps {
-                sh "docker run -v ./postman:/etc/newman -t postman/newman run /etc/newman/${JOB_NAME.toLowerCase()}.json > output.log"
-                sh "cat output.log" 
+                sh "docker run -v ./postman:/etc/newman -t postman/newman run /etc/newman/${JOB_NAME.toLowerCase()}.json --reporters cli,html --reporter-html-export /etc/newman/report.html | tee output.log"
+                def exitCode = sh(script: "grep -q 'failed' output.log; echo \$?", returnStatus: true)
+                if (exitCode != 0) {
+                    error "Os testes falharam. Veja o relatório HTML para mais detalhes."
+                }
             }
         }
     }
