@@ -1,0 +1,5 @@
+.vagrant/
+/data_nexus/
+/data_sonarqube/
+/data_jenkins/
+
