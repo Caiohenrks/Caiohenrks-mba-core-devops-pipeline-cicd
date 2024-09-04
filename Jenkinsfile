@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages { 
-        stage('Scan Sonarqube') {
+        stage('Code Quality Analysis') {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'SONARQUBE', variable: 'SONARQUBE')]) {
@@ -30,13 +30,13 @@ pipeline {
         		}
         	}
         }
-        stage('Build') {
+        stage('Build Image') {
             steps {
                 sh "docker-compose -f ./data_app/docker-compose.yml build"
                 sh "docker build -t ${JOB_NAME.toLowerCase()} -f ./data_app/Dockerfile ./data_app"
             }
         }
-        stage('Push Registry') {
+        stage('Push to Registry') {
             steps {
                 script {
                     def nexusUrl = '192.168.50.30:8082'
@@ -54,12 +54,12 @@ pipeline {
                 }
             }
         }
-        stage('Deploy') {
+        stage('Deploy Application') {
             steps {
                 sh "docker-compose -f ./data_app/docker-compose.yml up -d"
             }
         }
-        stage('Tests') {
+        stage('Run Tests') {
             steps {
                 sh "docker run -v ./postman:/etc/newman -t postman/newman run /etc/newman/${JOB_NAME.toLowerCase()}.json"
             }
