@@ -43,7 +43,7 @@ Vagrant.configure("2") do |config|
 
     SHELL
 
-    jenkins_config.vm.synced_folder "./data_jenkins", "/var/lib/jenkins", type: "rsync", rsync__auto: true
+    #jenkins_config.vm.synced_folder "./data_jenkins", "/var/lib/jenkins", type: "rsync", rsync__auto: true
   end
   
   config.vm.define "sonarqube" do |sonarqube_config|
@@ -86,16 +86,16 @@ Vagrant.configure("2") do |config|
       -e SONAR_JDBC_URL=jdbc:postgresql://sonarqube-db:5432/sonarqube \
       -e SONAR_JDBC_USERNAME=sonar \
       -e SONAR_JDBC_PASSWORD=sonarpassword \
-      -v /data/sonarqube_data:/opt/sonarqube/data \
-      -v /data/sonarqube_extensions:/opt/sonarqube/extensions \
-      -v /data/sonarqube_logs:/opt/sonarqube/logs \
+      -v sonarqube_data:/opt/sonarqube/data \
+      -v sonarqube_extensions:/opt/sonarqube/extensions \
+      -v sonarqube_logs:/opt/sonarqube/logs \
       --restart always \
       sonarqube:latest
 
       sudo firewall-cmd --zone=public --add-port=9000/tcp --permanent
       sudo firewall-cmd --reload
     SHELL
-    sonarqube_config.vm.synced_folder "./data_sonarqube", "/data", type: "virtualbox"
+    #sonarqube_config.vm.synced_folder "./data_sonarqube", "/data", type: "virtualbox"
   end
 
   # Configuração para o Nexus
@@ -124,13 +124,13 @@ Vagrant.configure("2") do |config|
       sudo systemctl enable docker
       sudo usermod -aG docker vagrant
 
-      sudo docker run -d -p 8081:8081 -p 8082:8082 -p 8083:8083 -v /data/nexus-data:/nexus-data --name nexus sonatype/nexus3 
+      sudo docker run -d -p 8081:8081 -p 8082:8082 -p 8083:8083 -v nexus-data:/nexus-data --name nexus sonatype/nexus3 
 
       sudo firewall-cmd --zone=public --add-port=8081/tcp --permanent
       sudo firewall-cmd --zone=public --add-port=8082/tcp --permanent
       sudo firewall-cmd --zone=public --add-port=8083/tcp --permanent
       sudo firewall-cmd --reload
     SHELL
-    nexus_config.vm.synced_folder "./data_nexus", "/data", type: "virtualbox"
+    #nexus_config.vm.synced_folder "./data_nexus", "/data", type: "virtualbox"
   end 
 end
