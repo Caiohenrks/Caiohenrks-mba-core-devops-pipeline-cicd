@@ -124,7 +124,7 @@ Vagrant.configure("2") do |config|
       sudo systemctl enable docker
       sudo usermod -aG docker vagrant
 
-      sudo docker run -d -p 8081:8081 -p 8082:8082 -p 8083:8083 -v nexus-data:/nexus-data --name nexus sonatype/nexus3 
+      sudo docker run -d -p 8081:8081 -p 8082:8082 -p 8083:8083 --restart always -v nexus-data:/nexus-data --name nexus sonatype/nexus3 
 
       sudo firewall-cmd --zone=public --add-port=8081/tcp --permanent
       sudo firewall-cmd --zone=public --add-port=8082/tcp --permanent
