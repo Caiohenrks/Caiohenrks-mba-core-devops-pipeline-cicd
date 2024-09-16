@@ -36,7 +36,7 @@ pipeline {
                 sh "docker build -t ${JOB_NAME.toLowerCase()} -f ./data_app/Dockerfile ./data_app"
             }
         }
-        stage('Build Image') {
+        stage('Security Image Scan') {
             steps {
                 sh "trivy image --exit-code 1 --severity CRITICAL --scanners vuln ${JOB_NAME.toLowerCase()}"
             }
