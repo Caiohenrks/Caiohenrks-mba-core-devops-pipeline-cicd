@@ -10,9 +10,8 @@ pipeline {
                             docker run \
                             --rm \
                             -e SONAR_HOST_URL="https://sonarcloud.io/" \
-                            -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=${JOB_NAME}" \
+                            -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=${JOB_NAME} -Dsonar.organization="caiohenrks" \
                             -e SONAR_TOKEN="${SONARQUBE}" \
-                            -e SONAR_ORGANIZATION="caiohenrks" \
                             -v "./data_app:/usr/src" \
                             sonarsource/sonar-scanner-cli
                         """
