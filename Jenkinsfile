@@ -9,7 +9,7 @@ pipeline {
                         sh """
                             docker run \
                             --rm \
-                            -e SONAR_HOST_URL="http://192.168.50.20:9000/" \
+                            -e SONAR_HOST_URL="https://sonarcloud.io/" \
                             -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=${JOB_NAME}" \
                             -e SONAR_TOKEN="${SONARQUBE}" \
                             -v "./data_app:/usr/src" \
