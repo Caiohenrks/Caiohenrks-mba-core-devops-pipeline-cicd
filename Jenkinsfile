@@ -17,7 +17,7 @@ pipeline {
                         """
         				sleep 15
         				
-                        def qualityGate = sh(script: "curl -k -u ${SONARQUBE}: http://192.168.50.20:9000/api/qualitygates/project_status?projectKey=${JOB_NAME}", returnStdout: true).trim()
+                        def qualityGate = sh(script: "curl -k -u ${SONARQUBE}: https://sonarcloud.io/api/qualitygates/project_status?projectKey=${JOB_NAME}", returnStdout: true).trim()
         				echo "Quality Gate JSON: ${qualityGate}"
         				
         				def status = new groovy.json.JsonSlurper().parseText(qualityGate).projectStatus.status
