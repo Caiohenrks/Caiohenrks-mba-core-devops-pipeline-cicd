@@ -1,7 +1,7 @@
 
 # Geral
 
-##  Implementação DevOps com Jenkins, SonarQube, Nexus e Newman
+##  Implementação DevOps com Jenkins, SonarQube, Trivy, Nexus e Newman
 
 Este projeto descreve a implementação de um pipeline DevOps utilizando as ferramentas Jenkins, SonarQube, Nexus e Newman. Essa configuração é ideal para ambientes de testes e experimentações, não sendo recomendada para produção devido a limitações na persistência de dados e questões de segurança das credenciais.
 
