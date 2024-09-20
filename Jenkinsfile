@@ -64,7 +64,7 @@ pipeline {
                 sh "docker-compose -f ./data_app/docker-compose.yml up -d"
             }
         }
-        stage('Run Tests') {
+        stage('Smoke Test') {
             steps {
                 sh "docker run -v ./postman:/etc/newman -t postman/newman run /etc/newman/${JOB_NAME.toLowerCase()}.json"
             }
