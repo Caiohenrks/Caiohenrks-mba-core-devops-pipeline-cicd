@@ -38,11 +38,15 @@ pipeline {
         }
         stage('Security Image Scan') {
             steps {
+                sh 'curl -L -o html.tpl https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl'
+                
                 sh """
                 trivy image --exit-code 1 --severity HIGH,CRITICAL \
-                --format template --template '@contrib/csv.tpl' \
-                --output trivy-report.csv ${JOB_NAME.toLowerCase()}
+                --format template --template ./html.tpl \
+                --output trivy-report.html ${JOB_NAME.toLowerCase()}
                 """
+                
+                archiveArtifacts artifacts: 'trivy-report.html', allowEmptyArchive: false
             }
         }
         stage('Push to Registry') {
