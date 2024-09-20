@@ -10,7 +10,7 @@ pipeline {
                             docker run \
                             --rm \
                             -e SONAR_HOST_URL="https://sonarcloud.io/" \
-                            -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=${JOB_NAME} -Dsonar.organization=\"caiohenrks\" -Dsonar.languages=js,Docker,PHP -Dsonar.projectVersion=V${BUILD_NUMBER} -Dsonar.scm.provider=git" \
+                            -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=${JOB_NAME} -Dsonar.organization=\"caiohenrks\" -Dsonar.languages=js,Docker,PHP -Dsonar.projectVersion=V${BUILD_NUMBER} -Dsonar.scm.provider=none" \
                             -e SONAR_TOKEN="${SONARQUBE}" \
                             -v "./data_app:/usr/src" \
                             sonarsource/sonar-scanner-cli
