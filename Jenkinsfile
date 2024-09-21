@@ -45,8 +45,6 @@ pipeline {
                 --format template --template @html.tpl \
                 --output trivy-report.html ${JOB_NAME.toLowerCase()}
                 """
-                
-                archiveArtifacts artifacts: 'trivy-report.html', allowEmptyArchive: false
             }
         }
         stage('Push to Registry') {
