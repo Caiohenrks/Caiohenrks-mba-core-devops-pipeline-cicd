@@ -39,11 +39,10 @@ pipeline {
         stage('Security Image Scan') {
             steps {
                 sh 'curl -L -o html.tpl https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl'
-                sh "mkdr artifacts"
                 sh """
                 trivy image --exit-code 0 --severity HIGH,CRITICAL \
                 --format template --template @html.tpl \
-                --output artifacts/trivy-report.html ${JOB_NAME.toLowerCase()}
+                --output trivy-report.html ${JOB_NAME.toLowerCase()}
                 """
 
                 /*
@@ -82,7 +81,9 @@ pipeline {
             steps {
                 //sh "docker run -v ./postman:/etc/newman -t postman/newman run /etc/newman/${JOB_NAME.toLowerCase()}.json --reporters json --reporter-json-export /etc/newman/report.json"
                 sh "docker run -v ./postman:/etc/newman -t newman-reporter run /etc/newman/${JOB_NAME.toLowerCase()}.json -r htmlextra"
+                sh "mkdir artifacts"
                 sh "mv ./postman/newman/* artifacts/"
+                sh "mv ./trivy-report.html artifacts/"
             }
         }
     }
