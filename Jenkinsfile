@@ -43,14 +43,16 @@ pipeline {
                 sh """
                 trivy image --exit-code 0 --severity HIGH,CRITICAL \
                 --format template --template @html.tpl \
-                --output trivy-report.html ${JOB_NAME.toLowerCase()}
+                --output artifacts/trivy-report.html ${JOB_NAME.toLowerCase()}
                 """
 
+                /*
                 sh """
                 trivy image --exit-code 0 --severity HIGH,CRITICAL \
                 --format json \
                 --output trivy-report.json ${JOB_NAME.toLowerCase()}
                 """
+                */
             }
         }
         stage('Push to Registry') {
@@ -78,7 +80,9 @@ pipeline {
         }
         stage('Smoke Test') {
             steps {
-                sh "docker run -v ./postman:/etc/newman -t postman/newman run /etc/newman/${JOB_NAME.toLowerCase()}.json --reporters json --reporter-json-export /etc/newman/report.json"
+                //sh "docker run -v ./postman:/etc/newman -t postman/newman run /etc/newman/${JOB_NAME.toLowerCase()}.json --reporters json --reporter-json-export /etc/newman/report.json"
+                sh "docker run -v ./postman:/etc/newman -t newman-reporter run /etc/newman/${JOB_NAME.toLowerCase()}.json -r htmlextra"
+                sh "mv ./postman/newman/* artifacts/"
             }
         }
     }
