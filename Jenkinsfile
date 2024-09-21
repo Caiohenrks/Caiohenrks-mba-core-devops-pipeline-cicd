@@ -78,7 +78,7 @@ pipeline {
         }
         stage('Smoke Test') {
             steps {
-                sh "docker run -v ./postman:/etc/newman -t postman/newman run /etc/newman/${JOB_NAME.toLowerCase()}.json"
+                sh "docker run -v ./postman:/etc/newman -t postman/newman run /etc/newman/${JOB_NAME.toLowerCase()}.json --reporters json --reporter-json-export /etc/newman/report.json"
             }
         }
     }
