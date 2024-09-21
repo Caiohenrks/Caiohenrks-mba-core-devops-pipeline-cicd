@@ -39,7 +39,7 @@ pipeline {
         stage('Security Image Scan') {
             steps {
                 sh 'curl -L -o html.tpl https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl'
-                
+                sh "mkdr artifacts"
                 sh """
                 trivy image --exit-code 0 --severity HIGH,CRITICAL \
                 --format template --template @html.tpl \
