@@ -42,7 +42,7 @@ pipeline {
                 
                 sh """
                 trivy image --exit-code 0 --severity HIGH,CRITICAL \
-                --format template --template ./html.tpl \
+                --format template --template @html.tpl \
                 --output trivy-report.html ${JOB_NAME.toLowerCase()}
                 """
                 
