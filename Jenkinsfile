@@ -5,7 +5,6 @@ pipeline {
         stage('Code Quality Analysis') {
             steps {
                 script {
-                    cleanWs()
                     withCredentials([string(credentialsId: 'SONARQUBE', variable: 'SONARQUBE')]) {
                         sh """
                             docker run \
