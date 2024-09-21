@@ -45,6 +45,12 @@ pipeline {
                 --format template --template @html.tpl \
                 --output trivy-report.html ${JOB_NAME.toLowerCase()}
                 """
+
+                sh """
+                trivy image --exit-code 0 --severity HIGH,CRITICAL \
+                --format json \
+                --output trivy-report.json ${JOB_NAME.toLowerCase()}
+                """
             }
         }
         stage('Push to Registry') {
