@@ -80,7 +80,7 @@ pipeline {
         stage('Smoke Test') {
             steps {
                 //sh "docker run -v ./postman:/etc/newman -t postman/newman run /etc/newman/${JOB_NAME.toLowerCase()}.json --reporters json --reporter-json-export /etc/newman/report.json"
-                sh "docker run -v ./postman:/etc/newman -t newman-reporter run /etc/newman/${JOB_NAME.toLowerCase()}.json -r htmlextra"
+                sh "docker run -v ./postman:/etc/newman --user $(id -u):$(id -g) -t newman-reporter run /etc/newman/${JOB_NAME.toLowerCase()}.json -r htmlextra"
                 sh "mkdir -p artifacts && mv ./postman/newman/* artifacts/"
                 sh "mkdir -p artifacts && mv ./trivy-report.html artifacts/"
             }
