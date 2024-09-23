@@ -81,8 +81,8 @@ pipeline {
             steps {
                 //sh "docker run -v ./postman:/etc/newman -t postman/newman run /etc/newman/${JOB_NAME.toLowerCase()}.json --reporters json --reporter-json-export /etc/newman/report.json"
                 sh "docker run -v ./postman:/etc/newman -t newman-reporter run /etc/newman/${JOB_NAME.toLowerCase()}.json -r htmlextra"
-                sh "mv ./postman/newman/* artifacts/"
-                sh "mv ./trivy-report.html artifacts/"
+                sh "mkdir -p artifacts && mv ./postman/newman/* artifacts/"
+                sh "mkdir -p artifacts && mv ./trivy-report.html artifacts/"
             }
         }
     }
