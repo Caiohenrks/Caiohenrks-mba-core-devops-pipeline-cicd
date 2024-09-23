@@ -80,11 +80,10 @@ pipeline {
         stage('Smoke Test') {
             steps {
                 sh "docker run -v ./postman:/etc/newman --user 0 -t newman-reporter run /etc/newman/${JOB_NAME.toLowerCase()}.json -r htmlextra"
-                sh "docker run -v ./postman:/etc/newman --user 0 -t newman-reporter chown -R \$(id -u):\$(id -g) /etc/newman"
                 sh """
-                    mkdir -p artifacts && chmod 666 -R ./postman/
-                    mv ./postman/newman/* artifacts/
-                    mv ./trivy-report.html artifacts/
+                    mkdir -p artifacts
+                    sudo mv ./postman/newman/* artifacts/
+                    sudo mv ./trivy-report.html artifacts/
                 """
             }
         }
