@@ -84,12 +84,7 @@ pipeline {
                 sh "mkdir -p artifacts && mv ./postman/newman/* artifacts/"
                 sh "mkdir -p artifacts && mv ./trivy-report.html artifacts/"
             }
-            stage('Cleanup') {
-            steps {
-                script{
-                    cleanWs()
-                }
-            }
         }
+        stage('Cleanup') {steps {script{cleanWs()}}}
     }
 }
