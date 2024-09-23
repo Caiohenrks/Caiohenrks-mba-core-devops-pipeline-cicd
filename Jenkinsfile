@@ -86,11 +86,11 @@ pipeline {
                     sudo mv ./trivy-report.html artifacts/
                 """
             }
-            stage('Zip Artefacts') {
-                steps {
-                    sh 'zip -r artifacts.zip artifacts'
-                    archiveArtifacts artifacts: 'artifacts.zip', allowEmptyArchive: true
-                }
+        }
+        stage('Zip Artefacts') {
+            steps {
+                sh 'zip -r artifacts.zip artifacts'
+                archiveArtifacts artifacts: 'artifacts.zip', allowEmptyArchive: true
             }
         }
     }
