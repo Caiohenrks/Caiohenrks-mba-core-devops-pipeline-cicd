@@ -82,11 +82,10 @@ pipeline {
                 sh "docker run -v ./postman:/etc/newman --user 0 -t newman-reporter run /etc/newman/${JOB_NAME.toLowerCase()}.json -r htmlextra"
                 sh """
                     mkdir -p artifacts
-                    sudo mv ./postman/newman/* artifacts/
-                    sudo mv ./trivy-report.html artifacts/
+                    mv ./postman/newman/* artifacts/
+                    mv ./trivy-report.html artifacts/
                 """
             }
         }
-        stage('Cleanup') {steps {script{cleanWs()}}}
     }
 }
