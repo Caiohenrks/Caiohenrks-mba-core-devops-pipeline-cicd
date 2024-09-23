@@ -86,9 +86,10 @@ pipeline {
             }
             stage('Cleanup') {
             steps {
-                script{cleanWs()}
+                script{
+                    cleanWs()
+                }
             }
-        }
         }
     }
 }
