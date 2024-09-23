@@ -82,9 +82,15 @@ pipeline {
                 sh "docker run -v ./postman:/etc/newman --user 0 -t newman-reporter run /etc/newman/${JOB_NAME.toLowerCase()}.json -r htmlextra"
                 sh """
                     mkdir -p artifacts
-                    mv ./postman/newman/* artifacts/
-                    mv ./trivy-report.html artifacts/
+                    sudo mv ./postman/newman/* artifacts/
+                    sudo mv ./trivy-report.html artifacts/
                 """
+            }
+            stage('Zip Artefacts') {
+                steps {
+                    sh 'zip -r artifacts.zip artifacts'
+                    archiveArtifacts artifacts: 'artifacts.zip', allowEmptyArchive: true
+                }
             }
         }
     }
