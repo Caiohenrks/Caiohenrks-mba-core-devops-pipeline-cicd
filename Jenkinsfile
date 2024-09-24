@@ -97,10 +97,13 @@ pipeline {
                 """
             }
         }
-        stage('Zip Artefacts') {
+        stage('Upload Artifacts') {
             steps {
-                sh 'zip -r artifacts.zip artifacts'
-                archiveArtifacts artifacts: 'artifacts.zip', allowEmptyArchive: true
+                withCredentials([usernamePassword(credentialsId: 'NEXUS_LOGIN', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
+                  sh 'zip -r ${JOB_NAME.toLowerCase()}_${BUILD_NUMBER}.zip artifacts'
+                  archiveArtifacts artifacts: '${JOB_NAME.toLowerCase()}_${BUILD_NUMBER}.zip', allowEmptyArchive: true
+                  sh"curl -v -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} --upload-file ${JOB_NAME.toLowerCase()}_${BUILD_NUMBER}.zip ${JOB_NAME.toLowerCase()}_${BUILD_NUMBER}.zip"
+                }
             }
         }
     }
