@@ -8,12 +8,12 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                scripts{cleanWs()}
                 checkout scm
             }
         }
         stage('Code Quality Analysis') {
             steps {
+                cleanWs()
                 script {
                     withCredentials([string(credentialsId: 'SONARQUBE', variable: 'SONARQUBE')]) {
                         sh """
