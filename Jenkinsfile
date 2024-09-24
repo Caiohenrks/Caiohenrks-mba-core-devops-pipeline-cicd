@@ -102,7 +102,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'NEXUS_LOGIN', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
                   sh "zip -r ${JOB_NAME.toLowerCase()}_${BUILD_NUMBER}.zip artifacts"
                   archiveArtifacts artifacts: "${JOB_NAME.toLowerCase()}_${BUILD_NUMBER}.zip", allowEmptyArchive: true
-                  sh "curl -v -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} --upload-file ${JOB_NAME.toLowerCase()}_${BUILD_NUMBER}.zip ${JOB_NAME.toLowerCase()}_${BUILD_NUMBER}.zip"
+                  sh "curl -v -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} --upload-file ${JOB_NAME.toLowerCase()}_${BUILD_NUMBER}.zip http://192.168.50.30:8082/repository/jenkins_artifacts/${JOB_NAME.toLowerCase()}_${BUILD_NUMBER}.zip"
                 }
             }
         }
