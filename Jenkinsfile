@@ -89,7 +89,7 @@ pipeline {
         }
         stage('Smoke Test') {
             steps {
-                sh "docker run -v ./postman:/etc/newman --user 0 -t newman-reporter run /etc/newman/${JOB_NAME.toLowerCase()}.json -r htmlextra"
+                sh "docker run --rm -v ./postman:/etc/newman --user 0 -t newman-reporter run /etc/newman/${JOB_NAME.toLowerCase()}.json -r htmlextra"
                 sh """
                     mkdir -p artifacts
                     sudo mv ./postman/newman/* artifacts/
