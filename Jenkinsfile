@@ -1,11 +1,34 @@
 pipeline {
     agent any
-
+    environment {
+        ELASTICSEARCH_URL = 'http://18.228.213.154:9200'
+        INDEX_NAME = "${JOB_NAME.toLowerCase()}-${new Date().format('yyyy-MM-dd')}"
+    }
     options {
         disableConcurrentBuilds()
         skipDefaultCheckout(true)
     }
+    
     stages {
+        stage('Check or Create Index') {
+            steps {
+                script {
+                    def jobName = env.JOB_NAME
+                    def currentTime = new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                    def jenkinsBuild = env.BUILD_NUMBER
+                    def data = createData(jobName, currentTime, "INICIADO", jenkinsBuild)
+
+                    def checkIndexExists = sh (
+                        script: "curl -o /dev/null -s -w \"%{http_code}\" -X GET ${ELASTICSEARCH_URL}/${INDEX_NAME} -k",
+                        returnStdout: true
+                    ).trim()
+                    if (checkIndexExists == "404") {
+                        sh "curl -X PUT ${ELASTICSEARCH_URL}/${INDEX_NAME} -H 'Content-Type: application/json' -k"
+                    }
+                    sendEvent(data)
+                }
+            }
+        }
         stage('Checkout') {
             steps {
                 cleanWs()
